@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taconmadre Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            padding: 40px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b35, #f7931e);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-left-color: #ff6b35;
+        }
+
+        .item-info {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .item-info h3 {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .item-info p {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .item-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            min-width: 120px;
+        }
+
+        .item-price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #27ae60;
+            background: linear-gradient(135deg, #e8f5e8, #d4edda);
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 80px;
+            box-shadow: 0 2px 6px rgba(39, 174, 96, 0.2);
+        }
+
+        .combo-item {
+            background: linear-gradient(135deg, #fff5f0 0%, #ffe8d6 100%);
+            border: 3px solid #ff6b35;
+            border-radius: 15px;
+            position: relative;
+            overflow: visible;
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .combo-item .item-price {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #2c5530;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .qty-btn:hover {
+            background: linear-gradient(135deg, #ffed4e, #ffd700);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .qty-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .qty-input {
+            width: 45px;
+            height: 32px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+
+        /* Combo drink selection styles */
+        .combo-drink-selection {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            border: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .combo-drink-selection h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .drink-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .drink-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 220px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .drink-option label {
+            color: #2c3e50;
+            font-weight: 600;
+            min-width: 80px;
+        }
+
+        .combo-drink-error {
+            color: #dc3545;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 10px;
+            padding: 8px;
+            background: rgba(220, 53, 69, 0.1);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        /* Basket Section Styles */
+        .basket-section {
+            background: linear-gradient(135deg, #2c5530, #1a3d1f);
+            padding: 30px 20px;
+            margin: 40px 0;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .basket-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .basket-header h2 {
+            color: #ffd700;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .basket-header p {
+            color: #e0e0e0;
+            font-size: 1.1rem;
+        }
+
+        .basket-items {
+            margin-bottom: 30px;
+        }
+
+        .basket-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .basket-item.combo-highlight {
+            background: rgba(255, 107, 53, 0.2);
+            border: 2px solid #ff6b35;
+        }
+
+        .basket-item-info h4 {
+            color: #ffd700;
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+
+        .basket-item-info p {
+            color: #e0e0e0;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .basket-item-price {
+            color: #90ee90;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .basket-summary {
+            background: rgba(255,215,0,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+        }
+
+        .subtotal {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ffd700;
+        }
+
+        .proceed-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .proceed-btn:hover {
+            background: linear-gradient(135deg, #4a7c59, #2c5530);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(44,85,48,0.4);
+        }
+
+        .order-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #4a7c59;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.95);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255,215,0,0.3);
+        }
+
+        .submit-order-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #2c5530;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-order-btn:hover {
+            background: linear-gradient(135deg, #ffed4e, #ffd700);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+        }
+
+        .submit-order-btn:disabled {
+            background: #666;
+            color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #8b0000, #660000);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 25px rgba(139,0,0,0.3);
+        }
+
+        .error-message h3 {
+            color: #ffcccc;
+            margin-bottom: 15px;
+        }
+
+        .retry-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .retry-btn:hover {
+            background: #ff6666;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .modal-content h3 {
+            color: #28a745;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        .new-order-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .new-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .menu-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+                padding: 20px 15px;
+            }
+
+            .item-info {
+                padding-right: 0;
+                text-align: center;
+            }
+
+            .item-controls {
+                width: 100%;
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .item-price {
+                order: -1;
+                margin-bottom: 0;
+                font-size: 1.4em;
+                padding: 12px 20px;
+                min-width: 100px;
+            }
+
+            .quantity-control {
+                flex-shrink: 0;
+                padding: 10px;
+                border-radius: 15px;
+            }
+
+            .qty-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                border-radius: 10px;
+            }
+
+            .qty-input {
+                width: 60px;
+                height: 40px;
+                font-size: 1.1rem;
+                border-radius: 10px;
+            }
+
+            .combo-drink-selection {
+                margin-top: 15px;
+                padding: 15px 10px;
+            }
+
+            .drink-options {
+                gap: 12px;
+            }
+
+            .drink-option {
+                width: 200px;
+                padding: 8px 12px;
+            }
+
+            .basket-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+                padding: 12px;
+            }
+
+            .basket-item-info h4 {
+                font-size: 1rem;
+            }
+
+            .basket-item-price {
+                font-size: 1.1rem;
+                margin-top: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 25px 15px;
+            }
+
+            .header h1 {
+                font-size: 2.2em;
+            }
+
+            .section {
+                padding: 20px 15px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="header">
+            <h1>Taconmadre</h1>
+            <p>Order Ahead Pay Later</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🧺 Tacos de Canasta</h2>
+            
+            <div class="menu-grid">
+                <div class="menu-item combo-item">
+                    <div class="item-info">
+                        <h3>🎉 Taconmadre Combo</h3>
+                        <p>1 Chicharrón + 2 Carne con Papas + 1 Frijol con Longaniza + Mini Soda or Water</p>
+                    </div>
+                    <div class="item-controls">
+                        <div class="item-price">$14.00</div>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn minus" onclick="updateQuantity('combo', -1)">-</button>
+                            <input type="text" id="combo-qty" class="qty-input" value="0" readonly>
+                            <button type="button" class="qty-btn plus" onclick="updateQuantity('combo', 1)">+</button>
+                        </div>
+                    </div>
+                    <div id="combo-drink-selection" class="combo-drink-selection" style="display: none;">
+                        <h4>Choose your drinks:</h4>
+                        <div class="drink-options">
+                            <div class="drink-option">
+                                <label>Water:</label>
+                                <div class="quantity-control">
+                                    <button type="button" class="qty-btn minus" onclick="updateComboDrinkQty('water', -1)">-</button>
+                                    <input type="text" id="combo-water-qty" class="qty-input" value="0" readonly style="width: 40px;">
+                                    <button type="button" class="qty-btn plus" onclick="updateComboDrinkQty('water', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="drink-option">
+                                <label>Mini Soda:</label>
+                                <div class="quantity-control">
+                                    <button type="button" class="qty-btn minus" onclick="updateComboDrinkQty('soda', -1)">-</button>
+                                    <input type="text" id="combo-soda-qty" class="qty-input" value="0" readonly style="width: 40px;">
+                                    <button type="button" class="qty-btn plus" onclick="updateComboDrinkQty('soda', 1)">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="combo-drink-error" class="combo-drink-error" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <h3>Chicharrón</h3>
+                        <p>Tender pork skin, steamed to perfection</p>
+                    </div>
+                    <div class="item-controls">
+                        <div class="item-price">$3.50</div>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn minus" onclick="updateQuantity('chicharron', -1)">-</button>
+                            <input type="text" id="chicharron-qty" class="qty-input" value="0" readonly>
+                            <button type="button" class="qty-btn plus" onclick="updateQuantity('chicharron', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <h3>Frijol con Longaniza</h3>
+                        <p>Steamed beans with seasoned sausage</p>
+                    </div>
+                    <div class="item-controls">
+                        <div class="item-price">$3.25</div>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn minus" onclick="updateQuantity('frijol', -1)">-</button>
+                            <input type="text" id="frijol-qty" class="qty-input" value="0" readonly>
+                            <button type="button" class="qty-btn plus" onclick="updateQuantity('frijol', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <h3>Carne con Papas</h3>
+                        <p>Tender meat with potatoes, basket-steamed</p>
+                    </div>
+                    <div class="item-controls">
+                        <div class="item-price">$3.25</div>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn minus" onclick="updateQuantity('papa', -1)">-</button>
+                            <input type="text" id="papa-qty" class="qty-input" value="0" readonly>
+                            <button type="button" class="qty-btn plus" onclick="updateQuantity('papa', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">🥤 Beverages</h2>
+            
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-info">
+                        <h3>Water</h3>
+                        <p>Poland Spring 16.9oz</p>
+                    </div>
+                    <div class="item-controls">
+                        <div class="item-price">$1.00</div>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn minus" onclick="updateQuantity('water', -1)">-</button>
+                            <input type="text" id="water-qty" class="qty-input" value="0" readonly>
+                            <button type="button" class="qty-btn plus" onclick="updateQuantity('water', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <h3>Mini Soda</h3>
+                        <p>Classic soft drink 7.5oz</p>
+                    </div>
+                    <div class="item-controls">
+                        <div class="item-price">$1.00</div>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn minus" onclick="updateQuantity('soda', -1)">-</button>
+                            <input type="text" id="soda-qty" class="qty-input" value="0" readonly>
+                            <button type="button" class="qty-btn plus" onclick="updateQuantity('soda', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <h3>Seltzer</h3>
+                        <p>Sparkling flavored water 12oz</p>
+                    </div>
+                    <div class="item-controls">
+                        <div class="item-price">$1.50</div>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn minus" onclick="updateQuantity('seltzer', -1)">-</button>
+                            <input type="text" id="seltzer-qty" class="qty-input" value="0" readonly>
+                            <button type="button" class="qty-btn plus" onclick="updateQuantity('seltzer', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="item-info">
+                        <h3>Gatorade</h3>
+                        <p>Sports drink - various flavors 12oz</p>
+                    </div>
+                    <div class="item-controls">
+                        <div class="item-price">$2.50</div>
+                        <div class="quantity-control">
+                            <button type="button" class="qty-btn minus" onclick="updateQuantity('gatorade', -1)">-</button>
+                            <input type="text" id="gatorade-qty" class="qty-input" value="0" readonly>
+                            <button type="button" class="qty-btn plus" onclick="updateQuantity('gatorade', 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basket/Cart Section -->
+        <section id="basket-section" class="basket-section" style="display: none;">
+            <div class="container">
+                <div class="basket-header">
+                    <h2>🧺 Your Basket</h2>
+                    <p>Order Ahead Pay Later</p>
+                </div>
+                
+                <div class="basket-content">
+                    <div class="basket-items" id="basket-items">
+                        <!-- Selected items will appear here -->
+                    </div>
+                    
+                    <div class="basket-summary">
+                        <div class="subtotal">
+                            <span>Subtotal: </span>
+                            <span id="basket-total">$0.00</span>
+                        </div>
+                        
+                        <button type="button" id="proceed-checkout-btn" class="proceed-btn" onclick="scrollToCheckout()">Proceed to Checkout</button>
+                        
+                        <form id="order-form" class="order-form" style="display: none;">
+                            <div class="form-group">
+                                <label for="customer-name">Your Name:</label>
+                                <input type="text" id="customer-name" name="customerName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer-phone">📱 Phone Number:</label>
+                                <input type="tel" id="customer-phone" name="customerPhone" placeholder="1234567890" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer-email">📧 Email Address:</label>
+                                <input type="email" id="customer-email" name="customerEmail" placeholder="yourname@gmail.com" required>
+                            </div>
+                            
+                            <button type="submit" class="submit-order-btn">Place Order</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div id="error-message" class="error-message" style="display: none;">
+                    <h3>⚠ Error</h3>
+                    <p id="error-text"></p>
+                    <button class="retry-btn" onclick="hideError()">Try Again</button>
+                </div>
+            </div>
+        </section>
+
+        <div class="footer">
+            <p><span class="emoji">📱</span>For orders or questions call: <strong>(631) 318-4443</strong></p>
+            <p>Perfect for office events and small parties!</p>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div id="modal-confirmation-content">
+                <!-- Confirmation content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced ordering logic with bulletproof combo detection
+        
+        // Price mapping for all items
+        const prices = {
+            'chicharron': 3.50,
+            'frijol': 3.25,
+            'papa': 3.25,
+            'combo': 14.00,
+            'water': 1.00,
+            'soda': 1.00,
+            'seltzer': 1.50,
+            'gatorade': 2.50
+        };
+
+        // Item names for display
+        const itemNames = {
+            'chicharron': 'Chicharrón',
+            'frijol': 'Frijol con Longaniza',
+            'papa': 'Carne con Papas',
+            'combo': '🎉 Taconmadre Combo',
+            'water': 'Water',
+            'soda': 'Mini Soda',
+            'seltzer': 'Seltzer',
+            'gatorade': 'Gatorade'
+        };
+
+        // Store combo drink selections
+        let comboWaterQty = 0;
+        let comboSodaQty = 0;
+
+        // Update quantity function with enhanced combo logic
+        function updateQuantity(item, change) {
+            const qtyInput = document.getElementById(item + '-qty');
+            let currentQty = parseInt(qtyInput.value);
+            let newQty = currentQty + change;
+            
+            // Ensure quantity stays within bounds
+            if (newQty < 0) newQty = 0;
+            if (newQty > 50) newQty = 50; // Increased limit for large orders
+            
+            qtyInput.value = newQty;
+            
+            // Show/hide combo drink selection based on combo quantity
+            if (item === 'combo') {
+                const drinkSelection = document.getElementById('combo-drink-selection');
+                if (newQty > 0) {
+                    drinkSelection.style.display = 'block';
+                    // Reset drink quantities when combo quantity changes
+                    if (newQty !== currentQty) {
+                        comboWaterQty = Math.min(comboWaterQty, newQty);
+                        comboSodaQty = Math.min(comboSodaQty, newQty);
+                        // Ensure total doesn't exceed combo quantity
+                        if (comboWaterQty + comboSodaQty > newQty) {
+                            const excess = (comboWaterQty + comboSodaQty) - newQty;
+                            if (comboSodaQty >= excess) {
+                                comboSodaQty -= excess;
+                            } else {
+                                comboWaterQty -= (excess - comboSodaQty);
+                                comboSodaQty = 0;
+                            }
+                        }
+                        document.getElementById('combo-water-qty').value = comboWaterQty;
+                        document.getElementById('combo-soda-qty').value = comboSodaQty;
+                        updateComboDrinkError();
+                    }
+                } else {
+                    drinkSelection.style.display = 'none';
+                    // Clear selections when combo quantity is 0
+                    comboWaterQty = 0;
+                    comboSodaQty = 0;
+                    document.getElementById('combo-water-qty').value = 0;
+                    document.getElementById('combo-soda-qty').value = 0;
+                    document.getElementById('combo-drink-error').style.display = 'none';
+                }
+            }
+            
+            updateBasket();
+        }
+        
+        // Update combo drink quantities
+        function updateComboDrinkQty(drinkType, change) {
+            const comboQty = parseInt(document.getElementById('combo-qty').value) || 0;
+            
+            if (drinkType === 'water') {
+                const newQty = Math.max(0, comboWaterQty + change);
+                if (newQty + comboSodaQty <= comboQty) {
+                    comboWaterQty = newQty;
+                    document.getElementById('combo-water-qty').value = comboWaterQty;
+                }
+            } else if (drinkType === 'soda') {
+                const newQty = Math.max(0, comboSodaQty + change);
+                if (comboWaterQty + newQty <= comboQty) {
+                    comboSodaQty = newQty;
+                    document.getElementById('combo-soda-qty').value = comboSodaQty;
+                }
+            }
+            
+            updateComboDrinkError();
+            updateBasket();
+        }
+
+        // Update combo drink error message
+        function updateComboDrinkError() {
+            const comboQty = parseInt(document.getElementById('combo-qty').value) || 0;
+            const totalSelected = comboWaterQty + comboSodaQty;
+            const errorDiv = document.getElementById('combo-drink-error');
+            
+            if (totalSelected < comboQty) {
+                errorDiv.textContent = `Please select ${comboQty - totalSelected} more drink(s)`;
+                errorDiv.style.display = 'block';
+            } else {
+                errorDiv.style.display = 'none';
+            }
+        }
+
+        // Enhanced basket update with bulletproof combo detection
+        function updateBasket() {
+            const basketSection = document.getElementById('basket-section');
+            const basketItems = document.getElementById('basket-items');
+            const basketTotal = document.getElementById('basket-total');
+            
+            let total = 0;
+            let hasItems = false;
+            let basketHTML = '';
+
+            // Get current quantities
+            const quantities = {};
+            Object.keys(prices).forEach(item => {
+                quantities[item] = parseInt(document.getElementById(item + '-qty').value);
+            });
+
+            console.log('🔍 Current quantities:', quantities);
+
+            // Enhanced combo detection logic
+            const comboResult = detectCombos(quantities);
+            console.log('🎯 Combo detection result:', comboResult);
+
+            // Generate basket display
+            if (comboResult.autoCombos > 0) {
+                const comboTotal = 14.00 * comboResult.autoCombos;
+                total += comboTotal;
+                hasItems = true;
+                
+                basketHTML += `
+                    <div class="basket-item combo-highlight">
+                        <div class="basket-item-info">
+                            <h4 style="color: #ff6b35; font-weight: bold;">🎉 Auto-Detected Combo</h4>
+                            <p style="color: #333; font-weight: 600;">Quantity: ${comboResult.autoCombos}</p>
+                            <p style="color: #666; font-size: 0.85rem;">Includes: ${comboResult.autoCombos} Chicharrón + ${comboResult.autoCombos * 2} Papas + ${comboResult.autoCombos} Frijol + ${comboResult.autoComboWater} Water + ${comboResult.autoComboSoda} Soda</p>
+                        </div>
+                        <div class="basket-item-price" style="color: #ff6b35; font-weight: bold;">${comboTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            }
+
+            // Manual combos
+            if (quantities['combo'] > 0) {
+                const manualComboTotal = prices['combo'] * quantities['combo'];
+                total += manualComboTotal;
+                hasItems = true;
+                
+                const totalDrinkSelected = comboWaterQty + comboSodaQty;
+                let drinkText = 'No drinks selected';
+                if (totalDrinkSelected > 0) {
+                    const drinkParts = [];
+                    if (comboWaterQty > 0) drinkParts.push(`${comboWaterQty} Water`);
+                    if (comboSodaQty > 0) drinkParts.push(`${comboSodaQty} Mini Soda`);
+                    drinkText = drinkParts.join(', ');
+                }
+                
+                basketHTML += `
+                    <div class="basket-item combo-highlight">
+                        <div class="basket-item-info">
+                            <h4 style="color: #ff6b35; font-weight: bold;">${itemNames['combo']}</h4>
+                            <p style="color: #333; font-weight: 600;">Quantity: ${quantities['combo']}</p>
+                            <p style="color: #666; font-size: 0.85rem;">Selected drinks: ${drinkText}</p>
+                        </div>
+                        <div class="basket-item-price" style="color: #ff6b35; font-weight: bold;">${manualComboTotal.toFixed(2)}</div>
+                    </div>
+                `;
+            }
+
+            // Remaining individual items
+            Object.keys(comboResult.remaining).forEach(item => {
+                const qty = comboResult.remaining[item];
+                if (qty > 0 && item !== 'combo') {
+                    const itemTotal = prices[item] * qty;
+                    total += itemTotal;
+                    hasItems = true;
+                    
+                    basketHTML += `
+                        <div class="basket-item">
+                            <div class="basket-item-info">
+                                <h4>${itemNames[item]}</h4>
+                                <p>Quantity: ${qty}</p>
+                            </div>
+                            <div class="basket-item-price">${itemTotal.toFixed(2)}</div>
+                        </div>
+                    `;
+                }
+            });
+
+            // Update basket display
+            basketItems.innerHTML = basketHTML;
+            basketTotal.textContent = '
+        
+         + total.toFixed(2);
+            
+            // Show/hide basket section and reset checkout state
+            if (hasItems) {
+                basketSection.style.display = 'block';
+                const proceedBtn = document.getElementById('proceed-checkout-btn');
+                const orderForm = document.getElementById('order-form');
+                if (proceedBtn) proceedBtn.style.display = 'block';
+                if (orderForm) orderForm.style.display = 'none';
+            } else {
+                basketSection.style.display = 'none';
+            }
+        }
+
+        // Enhanced combo detection function
+        function detectCombos(quantities) {
+            const chicharronQty = quantities['chicharron'];
+            const papaQty = quantities['papa'];
+            const frijolQty = quantities['frijol'];
+            const waterQty = quantities['water'];
+            const sodaQty = quantities['soda'];
+            const drinkQty = waterQty + sodaQty;
+            
+            let autoCombos = 0;
+            let autoComboWater = 0;
+            let autoComboSoda = 0;
+            
+            // Only auto-detect combos if no manual combos are selected
+            if (quantities['combo'] === 0) {
+                // Combo = 1 chicharrón + 1 frijol + 2 papa + 1 drink
+                autoCombos = Math.min(
+                    chicharronQty,
+                    frijolQty,
+                    Math.floor(papaQty / 2),
+                    drinkQty
+                );
+                
+                if (autoCombos > 0) {
+                    // Distribute drinks for auto combos (prefer water first)
+                    autoComboWater = Math.min(autoCombos, waterQty);
+                    autoComboSoda = autoCombos - autoComboWater;
+                }
+            }
+            
+            // Calculate remaining items after auto combos
+            const remaining = {
+                'chicharron': chicharronQty - autoCombos,
+                'frijol': frijolQty - autoCombos,
+                'papa': papaQty - (autoCombos * 2),
+                'water': waterQty - autoComboWater,
+                'soda': sodaQty - autoComboSoda,
+                'seltzer': quantities['seltzer'],
+                'gatorade': quantities['gatorade']
+            };
+            
+            return {
+                autoCombos,
+                autoComboWater,
+                autoComboSoda,
+                remaining
+            };
+        }
+
+        // Function to scroll to checkout form
+        function scrollToCheckout() {
+            const orderForm = document.getElementById('order-form');
+            const proceedBtn = document.getElementById('proceed-checkout-btn');
+            
+            orderForm.style.display = 'block';
+            proceedBtn.style.display = 'none';
+            orderForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Initialize basket on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateBasket();
+            
+            // Set up form submission
+            const form = document.getElementById('order-form');
+            if (form) {
+                form.addEventListener('submit', handleOrderSubmission);
+            }
+        });
+
+        // Enhanced order submission handler
+        function handleOrderSubmission(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.querySelector('.submit-order-btn');
+            
+            // Validate required fields
+            const customerName = document.getElementById('customer-name').value.trim();
+            const customerPhone = document.getElementById('customer-phone').value.trim();
+            const customerEmail = document.getElementById('customer-email').value.trim();
+            
+            if (!customerName || !customerPhone || !customerEmail) {
+                alert('Please fill in all required fields (Name, Phone, and Email)');
+                return;
+            }
+            
+            // Validate customer name (letters only)
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            if (!nameRegex.test(customerName)) {
+                alert('Customer name can only contain letters and spaces.');
+                return;
+            }
+            
+            // Validate phone number (exactly 10 digits)
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(customerPhone)) {
+                alert('Phone number must be exactly 10 digits (numbers only).');
+                return;
+            }
+            
+            // Enhanced email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isPhoneNumber = /^\d{10,}$/.test(customerEmail.replace(/[\s\-\(\)]/g, ''));
+            
+            if (isPhoneNumber) {
+                alert('Please enter a valid email address, not a phone number.');
+                document.getElementById('customer-email').focus();
+                return;
+            }
+            
+            if (!emailRegex.test(customerEmail)) {
+                alert('Please enter a valid email address (example: yourname@gmail.com).');
+                document.getElementById('customer-email').focus();
+                return;
+            }
+            
+            // Check if any items are selected
+            let hasItems = false;
+            Object.keys(prices).forEach(item => {
+                if (parseInt(document.getElementById(item + '-qty').value) > 0) {
+                    hasItems = true;
+                }
+            });
+            
+            if (!hasItems) {
+                alert('Please select at least one item for your order.');
+                return;
+            }
+            
+            // Disable submit button and show loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting Order...';
+            
+            // Prepare order data
+            const quantities = {};
+            Object.keys(prices).forEach(item => {
+                quantities[item] = parseInt(document.getElementById(item + '-qty').value);
+            });
+            
+            const comboResult = detectCombos(quantities);
+            
+            // Calculate total
+            let calculatedTotal = 0;
+            
+            // Add auto-combo total
+            if (comboResult.autoCombos > 0) {
+                calculatedTotal += 14.00 * comboResult.autoCombos;
+            }
+            
+            // Add manual combo total
+            if (quantities['combo'] > 0) {
+                calculatedTotal += 14.00 * quantities['combo'];
+            }
+            
+            // Add remaining individual items
+            Object.keys(comboResult.remaining).forEach(item => {
+                if (comboResult.remaining[item] > 0) {
+                    calculatedTotal += prices[item] * comboResult.remaining[item];
+                }
+            });
+            
+            const orderData = {
+                customerName: customerName,
+                phone: customerPhone,
+                email: customerEmail,
+                chicharron: comboResult.remaining.chicharron,
+                frijol: comboResult.remaining.frijol,
+                papa: comboResult.remaining.papa,
+                water: quantities.water, // Total water for spreadsheet
+                soda: quantities.soda,   // Total soda for spreadsheet
+                seltzer: comboResult.remaining.seltzer,
+                gatorade: comboResult.remaining.gatorade,
+                combo: quantities.combo,
+                autoCombo: comboResult.autoCombos,
+                comboWater: comboWaterQty,
+                comboSoda: comboSodaQty,
+                total: '
+        
+         + calculatedTotal.toFixed(2)
+            };
+            
+            console.log('📦 Order data being sent:', orderData);
+            
+            // Submit order to enhanced Google Apps Script
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbwltwHVT-XVQ_i1jk6Jlpzmgbt9PzUb_9kU7IS87o82dizgPi1-xkeA0HrBy2Mn43k0MA/exec';
+            
+            fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify(orderData)
+            })
+            .then(response => {
+                console.log('✅ Order submitted successfully');
+                
+                showOrderConfirmationModal({
+                    customerName: customerName,
+                    orderId: 'Check your email',
+                    orderTotal: orderData.total,
+                    emailDelivered: true,
+                    message: 'Order received successfully! Your order details will be sent to your email.'
+                });
+            })
+            .catch(error => {
+                console.error('❌ Error during order submission:', error);
+                showError('Order Failed: Unable to connect to server. Please try again or call us at (631) 318-4443');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Place Order';
+            });
+        }
+
+        // Error display functions
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            
+            errorText.textContent = message;
+            errorDiv.style.display = 'block';
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function hideError() {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.style.display = 'none';
+        }
+        
+        // Modal confirmation functions
+        function showOrderConfirmationModal(orderInfo) {
+            const modal = document.getElementById('confirmation-modal');
+            const modalContent = document.getElementById('modal-confirmation-content');
+            
+            const emailStatusHtml = orderInfo.emailDelivered ? 
+                '<p style="color: #4CAF50; font-weight: bold;">📧 Email confirmation sent to your inbox!</p>' :
+                '<p style="color: #FF9800; font-weight: bold;">📧 Email notification failed, but your order is confirmed!</p>';
+            
+            modalContent.innerHTML = `
+                <h3>✅ Order Confirmed!</h3>
+                <p>Thank you, <strong>${orderInfo.customerName}</strong>!</p>
+                <p>Your delicious tacos are being prepared fresh for you!</p>
+                <p><strong>Order Total:</strong> ${orderInfo.orderTotal}</p>
+                ${emailStatusHtml}
+                <p>${orderInfo.emailDelivered ? 
+                    "Check your email for order details and pickup instructions!" : 
+                    "We'll contact you when your delicious tacos are ready for pickup!"}</p>
+                <button class="new-order-btn" onclick="location.reload()">New Order</button>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        // Close modal when clicking outside of it
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('confirmation-modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
+        
+        
